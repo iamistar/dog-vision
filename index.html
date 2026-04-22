@@ -7,514 +7,203 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="狗狗視角">
-<meta name="description" content="即時鏡頭模擬狗狗的視覺世界">
-
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <title>🐾 狗狗視角</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap');
-
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&display=swap');
   :root {
-    --bg: #0F0A05;
-    --gold: #D4A843;
-    --gold-light: #F0C96A;
-    --brown: #3D2B1F;
-    --brown-mid: #7B4F2E;
-    --cream: #FDF6E3;
-    --blue-dog: #6B8FBF;
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --bg:#0F0A05; --gold:#D4A843; --gold-light:#F0C96A;
+    --brown:#3D2B1F; --brown-mid:#7B4F2E; --cream:#FDF6E3;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  html, body {
-    width: 100%; height: 100%;
-    background: var(--bg);
-    font-family: 'Nunito', sans-serif;
-    color: var(--cream);
-    overflow: hidden;
-    position: fixed;
-  }
-
-  #videoEl {
-    position: fixed;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-
-  #glCanvas {
-    position: fixed;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  .vignette {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 45%, rgba(5,3,1,0.6) 100%);
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  /* Top bar */
-  .topbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: calc(14px + var(--safe-top)) 18px 14px;
-    background: linear-gradient(180deg, rgba(5,3,1,0.8) 0%, transparent 100%);
-  }
-
-  .logo {
-    font-family: 'Fredoka One', cursive;
-    font-size: 22px;
-    color: var(--gold);
-    text-shadow: 0 2px 8px rgba(212,168,67,0.5);
-  }
-
-  .cam-switch-btn {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    width: 42px; height: 42px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-user-select: none;
-  }
-  .cam-switch-btn:active { transform: scale(0.88); background: rgba(255,255,255,0.25); }
-
-  /* Split line */
-  #splitLine {
-    display: none;
-    position: fixed;
-    left: 50%; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, transparent 5%, var(--gold) 20%, var(--gold) 80%, transparent 95%);
-    z-index: 10;
-    transform: translateX(-50%);
-  }
-
-  #splitLabels {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 11;
-    pointer-events: none;
-  }
-
-  .split-label {
-    position: absolute;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.4px;
-    padding: 4px 11px;
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
-  }
-  .split-label.left {
-    left: 10px;
-    top: calc(60px + var(--safe-top));
-    color: var(--gold);
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(212,168,67,0.35);
-  }
-  .split-label.right {
-    right: 10px;
-    top: calc(60px + var(--safe-top));
-    color: var(--cream);
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.2);
-  }
-
-  /* Bottom panel */
-  .bottom-panel {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 20;
-    padding: 16px 18px calc(18px + var(--safe-bottom));
-    background: linear-gradient(0deg, rgba(5,3,1,0.92) 0%, transparent 100%);
-  }
-
-  .mode-tabs {
-    display: flex;
-    background: rgba(15,10,5,0.75);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(123,79,46,0.4);
-    border-radius: 50px;
-    padding: 4px;
-    margin-bottom: 12px;
-    gap: 3px;
-  }
-
-  .tab {
-    flex: 1;
-    padding: 10px 4px;
-    border: none;
-    border-radius: 46px;
-    background: transparent;
-    color: rgba(253,246,227,0.45);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.22s ease;
-    display: flex; align-items: center; justify-content: center;
-    gap: 5px;
-    -webkit-user-select: none;
-  }
-
-  .tab.active {
-    background: var(--gold);
-    color: var(--brown);
-    box-shadow: 0 2px 12px rgba(212,168,67,0.45);
-  }
-
-  .info-row {
-    display: flex;
-    gap: 7px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .info-pill {
-    background: rgba(15,10,5,0.65);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(123,79,46,0.3);
-    border-radius: 20px;
-    padding: 4px 11px;
-    font-size: 11px;
-    font-weight: 700;
-    color: rgba(253,246,227,0.65);
-    display: flex; align-items: center; gap: 5px;
-  }
-
-  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-  /* Start screen */
-  #startScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(ellipse at 50% 40%, #2A1A0A 0%, var(--bg) 70%);
-    gap: 18px;
-    padding: 40px 32px calc(40px + var(--safe-bottom));
-  }
-
-  .start-dog {
-    font-size: 88px;
-    animation: noseBoop 2.2s ease-in-out infinite;
-    filter: drop-shadow(0 8px 28px rgba(212,168,67,0.45));
-  }
-
-  @keyframes noseBoop {
-    0%,100% { transform: rotate(-4deg) scale(1); }
-    50% { transform: rotate(4deg) scale(1.07); }
-  }
-
-  .start-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 36px;
-    color: var(--gold);
-    text-align: center;
-    text-shadow: 0 3px 16px rgba(212,168,67,0.35);
-    line-height: 1.15;
-  }
-
-  .start-sub {
-    font-size: 14px;
-    color: var(--brown-mid);
-    text-align: center;
-    line-height: 1.65;
-    max-width: 260px;
-  }
-
-  .start-btn {
-    margin-top: 10px;
-    padding: 17px 44px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    border: none;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 21px;
-    color: var(--brown);
-    cursor: pointer;
-    box-shadow: 0 6px 28px rgba(212,168,67,0.4);
-    transition: all 0.25s;
-    letter-spacing: 0.5px;
-    -webkit-user-select: none;
-  }
-  .start-btn:active { transform: scale(0.95); box-shadow: 0 3px 12px rgba(212,168,67,0.35); }
-
-  /* Error screen */
-  #errorScreen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
-    gap: 16px;
-    padding: 40px;
-    text-align: center;
-  }
-  #errorScreen.show { display: flex; }
-  .err-icon { font-size: 60px; }
-  #errorScreen h2 { font-family: 'Fredoka One', cursive; color: var(--gold); font-size: 26px; }
-  #errorScreen p { font-size: 13px; color: var(--brown-mid); line-height: 1.7; max-width: 270px; }
-  .retry-btn {
-    margin-top: 8px;
-    padding: 13px 36px;
-    background: var(--gold);
-    border: none; border-radius: 40px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 17px; color: var(--brown);
-    cursor: pointer;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{width:100%;height:100%;background:var(--bg);font-family:'Nunito',sans-serif;color:var(--cream);overflow:hidden;position:fixed;}
+  #videoEl{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  #glCanvas{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+  .vignette{position:fixed;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,transparent 45%,rgba(5,3,1,.6) 100%);z-index:3;pointer-events:none;}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:calc(14px + var(--safe-top)) 18px 14px;background:linear-gradient(180deg,rgba(5,3,1,.85) 0%,transparent 100%);}
+  .logo{font-family:'Fredoka One',cursive;font-size:22px;color:var(--gold);text-shadow:0 2px 8px rgba(212,168,67,.5);}
+  .cam-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .2s;}
+  .cam-btn:active{transform:scale(.88);background:rgba(255,255,255,.25);}
+  #splitLine{display:none;position:fixed;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent 5%,var(--gold) 20%,var(--gold) 80%,transparent 95%);z-index:10;transform:translateX(-50%);}
+  #splitLabels{display:none;position:fixed;top:0;left:0;right:0;z-index:11;pointer-events:none;}
+  .sl{position:absolute;font-size:11px;font-weight:800;padding:4px 11px;border-radius:20px;backdrop-filter:blur(8px);}
+  .sl.l{left:10px;top:calc(62px + var(--safe-top));color:var(--gold);background:rgba(0,0,0,.5);border:1px solid rgba(212,168,67,.35);}
+  .sl.r{right:10px;top:calc(62px + var(--safe-top));color:var(--cream);background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);}
+  .bottom-panel{position:fixed;bottom:0;left:0;right:0;z-index:20;padding:16px 18px calc(18px + var(--safe-bottom));background:linear-gradient(0deg,rgba(5,3,1,.92) 0%,transparent 100%);}
+  .tabs{display:flex;background:rgba(15,10,5,.75);backdrop-filter:blur(16px);border:1px solid rgba(123,79,46,.4);border-radius:50px;padding:4px;margin-bottom:12px;gap:3px;}
+  .tab{flex:1;padding:10px 4px;border:none;border-radius:46px;background:transparent;color:rgba(253,246,227,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .22s ease;display:flex;align-items:center;justify-content:center;gap:5px;}
+  .tab.active{background:var(--gold);color:var(--brown);box-shadow:0 2px 12px rgba(212,168,67,.45);}
+  .pills{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;}
+  .pill{background:rgba(15,10,5,.65);backdrop-filter:blur(8px);border:1px solid rgba(123,79,46,.3);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;color:rgba(253,246,227,.65);display:flex;align-items:center;gap:5px;}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  #startScreen{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2A1A0A 0%,var(--bg) 70%);gap:18px;padding:40px 32px calc(40px + var(--safe-bottom));}
+  .dog{font-size:88px;animation:boop 2.2s ease-in-out infinite;filter:drop-shadow(0 8px 28px rgba(212,168,67,.45));}
+  @keyframes boop{0%,100%{transform:rotate(-4deg) scale(1);}50%{transform:rotate(4deg) scale(1.07);}}
+  .start-title{font-family:'Fredoka One',cursive;font-size:36px;color:var(--gold);text-align:center;text-shadow:0 3px 16px rgba(212,168,67,.35);}
+  .start-sub{font-size:14px;color:var(--brown-mid);text-align:center;line-height:1.65;max-width:260px;}
+  .start-btn{margin-top:10px;padding:17px 44px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:21px;color:var(--brown);cursor:pointer;box-shadow:0 6px 28px rgba(212,168,67,.4);}
+  .start-btn:active{transform:scale(.95);}
+  #errScreen{display:none;position:fixed;inset:0;z-index:60;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);gap:16px;padding:40px;text-align:center;}
+  #errScreen.show{display:flex;}
+  #errScreen h2{font-family:'Fredoka One',cursive;color:var(--gold);font-size:24px;}
+  #errScreen p{font-size:13px;color:var(--brown-mid);line-height:1.7;max-width:270px;}
+  .retry{padding:13px 36px;background:var(--gold);border:none;border-radius:40px;font-family:'Fredoka One',cursive;font-size:17px;color:var(--brown);cursor:pointer;margin-top:8px;}
 </style>
 </head>
 <body>
 
 <div id="startScreen">
-  <div class="start-dog">🐕</div>
+  <div class="dog">🐕</div>
   <h1 class="start-title">狗狗視角</h1>
   <p class="start-sub">開啟鏡頭，即時看見<br>你的毛孩眼中的世界 🌍</p>
-  <button class="start-btn" onclick="startCamera()">🐾 開啟鏡頭</button>
+  <button class="start-btn" onclick="startCam()">🐾 開啟鏡頭</button>
 </div>
 
-<div id="errorScreen">
-  <div class="err-icon">🚫</div>
+<div id="errScreen">
+  <div style="font-size:56px">🚫</div>
   <h2>無法開啟鏡頭</h2>
-  <p>請在手機設定中允許 Safari / Chrome 存取相機，然後再試一次。</p>
-  <button class="retry-btn" onclick="location.reload()">🔄 重試</button>
+  <p>請在設定中允許瀏覽器存取相機，然後重新整理頁面。</p>
+  <button class="retry" onclick="location.reload()">🔄 重試</button>
 </div>
 
 <video id="videoEl" autoplay playsinline muted></video>
 <canvas id="glCanvas"></canvas>
-
 <div id="splitLine"></div>
 <div id="splitLabels">
-  <span class="split-label left">🐶 狗狗看到的</span>
-  <span class="split-label right">👁️ 人類看到的</span>
+  <span class="sl l">🐶 狗狗看到的</span>
+  <span class="sl r">👁️ 人類看到的</span>
 </div>
 <div class="vignette"></div>
 
 <div class="topbar">
   <div class="logo">🐾 狗狗視角</div>
-  <button class="cam-switch-btn" id="switchBtn" onclick="switchCamera()">🔄</button>
+  <button class="cam-btn" id="switchBtn" onclick="switchCam()">🔄</button>
 </div>
 
 <div class="bottom-panel">
-  <div class="mode-tabs">
+  <div class="tabs">
     <button class="tab active" data-mode="dog"   onclick="setMode('dog')">🐶 狗狗</button>
     <button class="tab"        data-mode="split" onclick="setMode('split')">↔️ 對比</button>
     <button class="tab"        data-mode="human" onclick="setMode('human')">👁️ 人類</button>
   </div>
-  <div class="info-row">
-    <div class="info-pill"><div class="dot" style="background:#D4884A;"></div>紅→黃褐</div>
-    <div class="info-pill"><div class="dot" style="background:#A0C040;"></div>綠→黃</div>
-    <div class="info-pill"><div class="dot" style="background:#6B8FBF;"></div>藍→保留</div>
+  <div class="pills">
+    <div class="pill"><div class="dot" style="background:#D4884A"></div>紅→黃褐</div>
+    <div class="pill"><div class="dot" style="background:#A0C040"></div>綠→黃</div>
+    <div class="pill"><div class="dot" style="background:#6B8FBF"></div>藍→保留</div>
   </div>
 </div>
 
 <script>
-// ── WebGL shaders ──────────────────────────────────────────
-const VERT = `
-  attribute vec2 a_pos;
-  attribute vec2 a_uv;
-  varying vec2 v_uv;
-  void main(){v_uv=a_uv;gl_Position=vec4(a_pos,0.,1.);}
-`;
-const DOG_FRAG = `
-  precision mediump float;
-  uniform sampler2D u_tex;
-  varying vec2 v_uv;
-  float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}
-  float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}
-  vec3 dogVision(vec3 col){
-    float r=toL(col.r),g=toL(col.g),b=toL(col.b);
-    float L=.3811*r+.5783*g+.0402*b;
-    float S=b;
-    float nr= 4.4679*L-3.5873*L+.1193*S;
-    float ng=-1.2186*L+2.3809*L-.1624*S;
-    float nb= .0497*L-.2439*L+1.2045*S;
-    nr=clamp(nr,0.,1.);ng=clamp(ng,0.,1.);nb=clamp(nb,0.,1.);
-    nr=toS(nr);ng=toS(ng);nb=toS(nb);
-    float gr=.299*nr+.587*ng+.114*nb;
-    return vec3(nr*.82+gr*.18, ng*.82+gr*.18, nb*.82+gr*.18);
-  }
-  void main(){
-    vec4 c=texture2D(u_tex,v_uv);
-    gl_FragColor=vec4(dogVision(c.rgb),c.a);
-  }
-`;
-const PASS_FRAG = `
-  precision mediump float;
-  uniform sampler2D u_tex;
-  varying vec2 v_uv;
-  void main(){gl_FragColor=texture2D(u_tex,v_uv);}
-`;
-const SPLIT_FRAG = `
-  precision mediump float;
-  uniform sampler2D u_tex;
-  varying vec2 v_uv;
-  float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}
-  float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}
-  void main(){
-    vec4 c=texture2D(u_tex,v_uv);
-    if(v_uv.x>0.5){gl_FragColor=c;return;}
-    float r=toL(c.r),g=toL(c.g),b=toL(c.b);
-    float L=.3811*r+.5783*g+.0402*b; float S=b;
-    float nr=clamp(4.4679*L-3.5873*L+.1193*S,0.,1.);
-    float ng=clamp(-1.2186*L+2.3809*L-.1624*S,0.,1.);
-    float nb=clamp(.0497*L-.2439*L+1.2045*S,0.,1.);
-    nr=toS(nr);ng=toS(ng);nb=toS(nb);
-    float gr=.299*nr+.587*ng+.114*nb;
-    gl_FragColor=vec4(nr*.82+gr*.18,ng*.82+gr*.18,nb*.82+gr*.18,c.a);
-  }
-`;
+const VERT=`attribute vec2 a_pos;attribute vec2 a_uv;varying vec2 v_uv;void main(){v_uv=a_uv;gl_Position=vec4(a_pos,0.,1.);}`;
+const DOG=`precision mediump float;uniform sampler2D u_tex;varying vec2 v_uv;float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}void main(){vec4 c=texture2D(u_tex,v_uv);float r=toL(c.r),g=toL(c.g),b=toL(c.b);float L=.3811*r+.5783*g+.0402*b,S=b;float nr=clamp(4.4679*L-3.5873*L+.1193*S,0.,1.);float ng=clamp(-1.2186*L+2.3809*L-.1624*S,0.,1.);float nb=clamp(.0497*L-.2439*L+1.2045*S,0.,1.);nr=toS(nr);ng=toS(ng);nb=toS(nb);float gr=.299*nr+.587*ng+.114*nb;gl_FragColor=vec4(nr*.82+gr*.18,ng*.82+gr*.18,nb*.82+gr*.18,c.a);}`;
+const PASS=`precision mediump float;uniform sampler2D u_tex;varying vec2 v_uv;void main(){gl_FragColor=texture2D(u_tex,v_uv);}`;
+const SPLIT=`precision mediump float;uniform sampler2D u_tex;varying vec2 v_uv;float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}void main(){vec4 c=texture2D(u_tex,v_uv);if(v_uv.x>0.5){gl_FragColor=c;return;}float r=toL(c.r),g=toL(c.g),b=toL(c.b);float L=.3811*r+.5783*g+.0402*b,S=b;float nr=clamp(4.4679*L-3.5873*L+.1193*S,0.,1.);float ng=clamp(-1.2186*L+2.3809*L-.1624*S,0.,1.);float nb=clamp(.0497*L-.2439*L+1.2045*S,0.,1.);nr=toS(nr);ng=toS(ng);nb=toS(nb);float gr=.299*nr+.587*ng+.114*nb;gl_FragColor=vec4(nr*.82+gr*.18,ng*.82+gr*.18,nb*.82+gr*.18,c.a);}`;
 
-// ── State ──────────────────────────────────────────────────
-let gl, progDog, progPass, progSplit, tex;
-let video, canvas;
-let currentMode = 'dog';
-let useFront = false; // default: back camera for pointing at things
-let stream = null;
+let gl,pDog,pPass,pSplit,tex,video,canvas,mode='dog',front=false,stream=null;
 
-// ── Init WebGL ─────────────────────────────────────────────
-function mkProg(vSrc, fSrc){
-  const v=gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(v,vSrc); gl.compileShader(v);
-  const f=gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(f,fSrc); gl.compileShader(f);
-  const p=gl.createProgram();
-  gl.attachShader(p,v); gl.attachShader(p,f);
-  gl.linkProgram(p); return p;
+function mkP(vs,fs){
+  const v=gl.createShader(gl.VERTEX_SHADER);gl.shaderSource(v,vs);gl.compileShader(v);
+  const f=gl.createShader(gl.FRAGMENT_SHADER);gl.shaderSource(f,fs);gl.compileShader(f);
+  const p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);return p;
 }
 
 function initGL(){
-  canvas = document.getElementById('glCanvas');
-  gl = canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
-  if(!gl) return false;
-
-  progDog   = mkProg(VERT, DOG_FRAG);
-  progPass  = mkProg(VERT, PASS_FRAG);
-  progSplit = mkProg(VERT, SPLIT_FRAG);
-
-  const quad = new Float32Array([-1,-1,0,1, 1,-1,1,1, -1,1,0,0, 1,1,1,0]);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
-
-  [progDog,progPass,progSplit].forEach(p=>{
+  canvas=document.getElementById('glCanvas');
+  gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
+  if(!gl)return false;
+  pDog=mkP(VERT,DOG);pPass=mkP(VERT,PASS);pSplit=mkP(VERT,SPLIT);
+  const q=new Float32Array([-1,-1,0,1,1,-1,1,1,-1,1,0,0,1,1,1,0]);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,q,gl.STATIC_DRAW);
+  [pDog,pPass,pSplit].forEach(p=>{
     gl.useProgram(p);
-    const ap=gl.getAttribLocation(p,'a_pos'), au=gl.getAttribLocation(p,'a_uv');
-    gl.enableVertexAttribArray(ap); gl.enableVertexAttribArray(au);
+    const ap=gl.getAttribLocation(p,'a_pos'),au=gl.getAttribLocation(p,'a_uv');
+    gl.enableVertexAttribArray(ap);gl.enableVertexAttribArray(au);
     gl.vertexAttribPointer(ap,2,gl.FLOAT,false,16,0);
     gl.vertexAttribPointer(au,2,gl.FLOAT,false,16,8);
     gl.uniform1i(gl.getUniformLocation(p,'u_tex'),0);
   });
-
-  tex = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+  [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(p=>gl.texParameteri(gl.TEXTURE_2D,p,gl.CLAMP_TO_EDGE));
+  [gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(p=>gl.texParameteri(gl.TEXTURE_2D,p,gl.LINEAR));
   return true;
 }
 
-// ── Render loop ────────────────────────────────────────────
 function loop(){
   requestAnimationFrame(loop);
-  if(!video||video.readyState<2) return;
-  const vw=video.videoWidth, vh=video.videoHeight;
-  if(!vw||!vh) return;
-  if(canvas.width!==vw||canvas.height!==vh){
-    canvas.width=vw; canvas.height=vh;
-    gl.viewport(0,0,vw,vh);
-  }
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D,tex);
+  if(!video||video.readyState<2)return;
+  const vw=video.videoWidth,vh=video.videoHeight;if(!vw)return;
+  if(canvas.width!==vw||canvas.height!==vh){canvas.width=vw;canvas.height=vh;gl.viewport(0,0,vw,vh);}
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,video);
-  const p = currentMode==='dog'?progDog : currentMode==='split'?progSplit : progPass;
-  gl.useProgram(p);
-  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  const p=mode==='dog'?pDog:mode==='split'?pSplit:pPass;
+  gl.useProgram(p);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
 }
 
-// ── Camera ─────────────────────────────────────────────────
-async function startCamera(){
+async function startCam(){
   document.getElementById('startScreen').style.display='none';
-  if(!initGL()){ showError(); return; }
-  video = document.getElementById('videoEl');
-  try {
-    await openStream();
-    video.srcObject = stream;
-    await video.play();
-    loop();
-  } catch(e){ console.error(e); showError(); }
+  if(!initGL()){showErr();return;}
+  video=document.getElementById('videoEl');
+  try{await openStream();video.srcObject=stream;await video.play();loop();}
+  catch(e){console.error(e);showErr();}
 }
 
 async function openStream(){
-  if(stream) stream.getTracks().forEach(t=>t.stop());
-  stream = await navigator.mediaDevices.getUserMedia({
-    video:{ facingMode: useFront?'user':'environment', width:{ideal:1280}, height:{ideal:720} },
-    audio:false
+  if(stream)stream.getTracks().forEach(t=>t.stop());
+  stream=await navigator.mediaDevices.getUserMedia({
+    video:{facingMode:front?'user':'environment',width:{ideal:1280},height:{ideal:720}},audio:false
   });
 }
 
-async function switchCamera(){
-  useFront = !useFront;
-  const btn=document.getElementById('switchBtn');
-  btn.style.transition='transform 0.35s'; btn.style.transform='rotate(180deg)';
-  setTimeout(()=>{ btn.style.transform=''; },380);
-  try {
-    await openStream();
-    video.srcObject=stream;
-    await video.play();
-  } catch(e){ console.error(e); }
+async function switchCam(){
+  front=!front;
+  const b=document.getElementById('switchBtn');
+  b.style.transition='transform .35s';b.style.transform='rotate(180deg)';
+  setTimeout(()=>b.style.transform='',380);
+  try{await openStream();video.srcObject=stream;await video.play();}catch(e){}
 }
 
-// ── Mode ───────────────────────────────────────────────────
-function setMode(mode){
-  currentMode=mode;
+function setMode(m){
+  mode=m;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-  const show = mode==='split';
-  document.getElementById('splitLine').style.display   = show?'block':'none';
-  document.getElementById('splitLabels').style.display = show?'block':'none';
+  document.querySelector('[data-mode="'+m+'"]').classList.add('active');
+  const s=m==='split';
+  document.getElementById('splitLine').style.display=s?'block':'none';
+  document.getElementById('splitLabels').style.display=s?'block':'none';
 }
 
-function showError(){
-  document.getElementById('errorScreen').classList.add('show');
-}
+function showErr(){document.getElementById('errScreen').classList.add('show');}
 </script>
 
-<!-- Service Worker registration -->
 <script>
+// PWA manifest inline
+const manifest = {
+  name:'狗狗視角', short_name:'狗狗視角',
+  display:'fullscreen', orientation:'portrait',
+  background_color:'#0F0A05', theme_color:'#0F0A05',
+  start_url:'.',
+  icons:[
+    {src:'data:image/png;base64,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',sizes:'192x192',type:'image/png'},
+    {src:'data:image/png;base64,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',sizes:'512x512',type:'image/png'}
+  ]
+};
+const blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
+document.querySelector('link[rel="manifest"]') && document.querySelector('link[rel="manifest"]').remove();
+const ml=document.createElement('link');
+ml.rel='manifest';ml.href=URL.createObjectURL(blob);
+document.head.appendChild(ml);
+
+// Inline Service Worker
 if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js')
-      .then(r=>console.log('SW registered'))
-      .catch(e=>console.warn('SW failed:', e));
-  });
+  const swCode=`
+    self.addEventListener('fetch',e=>{
+      e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)));
+    });
+  `;
+  const swBlob=new Blob([swCode],{type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(swBlob),{scope:'.'})
+    .catch(()=>{});
 }
 </script>
 </body>
