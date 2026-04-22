@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0F0A05">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="狗狗視角">
+<meta name="description" content="即時鏡頭模擬狗狗的視覺世界">
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<title>🐾 狗狗視角</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap');
+
+  :root {
+    --bg: #0F0A05;
+    --gold: #D4A843;
+    --gold-light: #F0C96A;
+    --brown: #3D2B1F;
+    --brown-mid: #7B4F2E;
+    --cream: #FDF6E3;
+    --blue-dog: #6B8FBF;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    color: var(--cream);
+    overflow: hidden;
+    position: fixed;
+  }
+
+  #videoEl {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  #glCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  .vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 45%, rgba(5,3,1,0.6) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Top bar */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(14px + var(--safe-top)) 18px 14px;
+    background: linear-gradient(180deg, rgba(5,3,1,0.8) 0%, transparent 100%);
+  }
+
+  .logo {
+    font-family: 'Fredoka One', cursive;
+    font-size: 22px;
+    color: var(--gold);
+    text-shadow: 0 2px 8px rgba(212,168,67,0.5);
+  }
+
+  .cam-switch-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-user-select: none;
+  }
+  .cam-switch-btn:active { transform: scale(0.88); background: rgba(255,255,255,0.25); }
+
+  /* Split line */
+  #splitLine {
+    display: none;
+    position: fixed;
+    left: 50%; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent 5%, var(--gold) 20%, var(--gold) 80%, transparent 95%);
+    z-index: 10;
+    transform: translateX(-50%);
+  }
+
+  #splitLabels {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  .split-label {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .split-label.left {
+    left: 10px;
+    top: calc(60px + var(--safe-top));
+    color: var(--gold);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(212,168,67,0.35);
+  }
+  .split-label.right {
+    right: 10px;
+    top: calc(60px + var(--safe-top));
+    color: var(--cream);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* Bottom panel */
+  .bottom-panel {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 20;
+    padding: 16px 18px calc(18px + var(--safe-bottom));
+    background: linear-gradient(0deg, rgba(5,3,1,0.92) 0%, transparent 100%);
+  }
+
+  .mode-tabs {
+    display: flex;
+    background: rgba(15,10,5,0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(123,79,46,0.4);
+    border-radius: 50px;
+    padding: 4px;
+    margin-bottom: 12px;
+    gap: 3px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 10px 4px;
+    border: none;
+    border-radius: 46px;
+    background: transparent;
+    color: rgba(253,246,227,0.45);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    display: flex; align-items: center; justify-content: center;
+    gap: 5px;
+    -webkit-user-select: none;
+  }
+
+  .tab.active {
+    background: var(--gold);
+    color: var(--brown);
+    box-shadow: 0 2px 12px rgba(212,168,67,0.45);
+  }
+
+  .info-row {
+    display: flex;
+    gap: 7px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .info-pill {
+    background: rgba(15,10,5,0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(123,79,46,0.3);
+    border-radius: 20px;
+    padding: 4px 11px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(253,246,227,0.65);
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Start screen */
+  #startScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #2A1A0A 0%, var(--bg) 70%);
+    gap: 18px;
+    padding: 40px 32px calc(40px + var(--safe-bottom));
+  }
+
+  .start-dog {
+    font-size: 88px;
+    animation: noseBoop 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 28px rgba(212,168,67,0.45));
+  }
+
+  @keyframes noseBoop {
+    0%,100% { transform: rotate(-4deg) scale(1); }
+    50% { transform: rotate(4deg) scale(1.07); }
+  }
+
+  .start-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 36px;
+    color: var(--gold);
+    text-align: center;
+    text-shadow: 0 3px 16px rgba(212,168,67,0.35);
+    line-height: 1.15;
+  }
+
+  .start-sub {
+    font-size: 14px;
+    color: var(--brown-mid);
+    text-align: center;
+    line-height: 1.65;
+    max-width: 260px;
+  }
+
+  .start-btn {
+    margin-top: 10px;
+    padding: 17px 44px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 21px;
+    color: var(--brown);
+    cursor: pointer;
+    box-shadow: 0 6px 28px rgba(212,168,67,0.4);
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+    -webkit-user-select: none;
+  }
+  .start-btn:active { transform: scale(0.95); box-shadow: 0 3px 12px rgba(212,168,67,0.35); }
+
+  /* Error screen */
+  #errorScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    gap: 16px;
+    padding: 40px;
+    text-align: center;
+  }
+  #errorScreen.show { display: flex; }
+  .err-icon { font-size: 60px; }
+  #errorScreen h2 { font-family: 'Fredoka One', cursive; color: var(--gold); font-size: 26px; }
+  #errorScreen p { font-size: 13px; color: var(--brown-mid); line-height: 1.7; max-width: 270px; }
+  .retry-btn {
+    margin-top: 8px;
+    padding: 13px 36px;
+    background: var(--gold);
+    border: none; border-radius: 40px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 17px; color: var(--brown);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="start-dog">🐕</div>
+  <h1 class="start-title">狗狗視角</h1>
+  <p class="start-sub">開啟鏡頭，即時看見<br>你的毛孩眼中的世界 🌍</p>
+  <button class="start-btn" onclick="startCamera()">🐾 開啟鏡頭</button>
+</div>
+
+<div id="errorScreen">
+  <div class="err-icon">🚫</div>
+  <h2>無法開啟鏡頭</h2>
+  <p>請在手機設定中允許 Safari / Chrome 存取相機，然後再試一次。</p>
+  <button class="retry-btn" onclick="location.reload()">🔄 重試</button>
+</div>
+
+<video id="videoEl" autoplay playsinline muted></video>
+<canvas id="glCanvas"></canvas>
+
+<div id="splitLine"></div>
+<div id="splitLabels">
+  <span class="split-label left">🐶 狗狗看到的</span>
+  <span class="split-label right">👁️ 人類看到的</span>
+</div>
+<div class="vignette"></div>
+
+<div class="topbar">
+  <div class="logo">🐾 狗狗視角</div>
+  <button class="cam-switch-btn" id="switchBtn" onclick="switchCamera()">🔄</button>
+</div>
+
+<div class="bottom-panel">
+  <div class="mode-tabs">
+    <button class="tab active" data-mode="dog"   onclick="setMode('dog')">🐶 狗狗</button>
+    <button class="tab"        data-mode="split" onclick="setMode('split')">↔️ 對比</button>
+    <button class="tab"        data-mode="human" onclick="setMode('human')">👁️ 人類</button>
+  </div>
+  <div class="info-row">
+    <div class="info-pill"><div class="dot" style="background:#D4884A;"></div>紅→黃褐</div>
+    <div class="info-pill"><div class="dot" style="background:#A0C040;"></div>綠→黃</div>
+    <div class="info-pill"><div class="dot" style="background:#6B8FBF;"></div>藍→保留</div>
+  </div>
+</div>
+
+<script>
+// ── WebGL shaders ──────────────────────────────────────────
+const VERT = `
+  attribute vec2 a_pos;
+  attribute vec2 a_uv;
+  varying vec2 v_uv;
+  void main(){v_uv=a_uv;gl_Position=vec4(a_pos,0.,1.);}
+`;
+const DOG_FRAG = `
+  precision mediump float;
+  uniform sampler2D u_tex;
+  varying vec2 v_uv;
+  float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}
+  float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}
+  vec3 dogVision(vec3 col){
+    float r=toL(col.r),g=toL(col.g),b=toL(col.b);
+    float L=.3811*r+.5783*g+.0402*b;
+    float S=b;
+    float nr= 4.4679*L-3.5873*L+.1193*S;
+    float ng=-1.2186*L+2.3809*L-.1624*S;
+    float nb= .0497*L-.2439*L+1.2045*S;
+    nr=clamp(nr,0.,1.);ng=clamp(ng,0.,1.);nb=clamp(nb,0.,1.);
+    nr=toS(nr);ng=toS(ng);nb=toS(nb);
+    float gr=.299*nr+.587*ng+.114*nb;
+    return vec3(nr*.82+gr*.18, ng*.82+gr*.18, nb*.82+gr*.18);
+  }
+  void main(){
+    vec4 c=texture2D(u_tex,v_uv);
+    gl_FragColor=vec4(dogVision(c.rgb),c.a);
+  }
+`;
+const PASS_FRAG = `
+  precision mediump float;
+  uniform sampler2D u_tex;
+  varying vec2 v_uv;
+  void main(){gl_FragColor=texture2D(u_tex,v_uv);}
+`;
+const SPLIT_FRAG = `
+  precision mediump float;
+  uniform sampler2D u_tex;
+  varying vec2 v_uv;
+  float toL(float c){return c<=0.04045?c/12.92:pow((c+0.055)/1.055,2.4);}
+  float toS(float c){return c<=0.0031308?c*12.92:1.055*pow(c,1./2.4)-0.055;}
+  void main(){
+    vec4 c=texture2D(u_tex,v_uv);
+    if(v_uv.x>0.5){gl_FragColor=c;return;}
+    float r=toL(c.r),g=toL(c.g),b=toL(c.b);
+    float L=.3811*r+.5783*g+.0402*b; float S=b;
+    float nr=clamp(4.4679*L-3.5873*L+.1193*S,0.,1.);
+    float ng=clamp(-1.2186*L+2.3809*L-.1624*S,0.,1.);
+    float nb=clamp(.0497*L-.2439*L+1.2045*S,0.,1.);
+    nr=toS(nr);ng=toS(ng);nb=toS(nb);
+    float gr=.299*nr+.587*ng+.114*nb;
+    gl_FragColor=vec4(nr*.82+gr*.18,ng*.82+gr*.18,nb*.82+gr*.18,c.a);
+  }
+`;
+
+// ── State ──────────────────────────────────────────────────
+let gl, progDog, progPass, progSplit, tex;
+let video, canvas;
+let currentMode = 'dog';
+let useFront = false; // default: back camera for pointing at things
+let stream = null;
+
+// ── Init WebGL ─────────────────────────────────────────────
+function mkProg(vSrc, fSrc){
+  const v=gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(v,vSrc); gl.compileShader(v);
+  const f=gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(f,fSrc); gl.compileShader(f);
+  const p=gl.createProgram();
+  gl.attachShader(p,v); gl.attachShader(p,f);
+  gl.linkProgram(p); return p;
+}
+
+function initGL(){
+  canvas = document.getElementById('glCanvas');
+  gl = canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
+  if(!gl) return false;
+
+  progDog   = mkProg(VERT, DOG_FRAG);
+  progPass  = mkProg(VERT, PASS_FRAG);
+  progSplit = mkProg(VERT, SPLIT_FRAG);
+
+  const quad = new Float32Array([-1,-1,0,1, 1,-1,1,1, -1,1,0,0, 1,1,1,0]);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+
+  [progDog,progPass,progSplit].forEach(p=>{
+    gl.useProgram(p);
+    const ap=gl.getAttribLocation(p,'a_pos'), au=gl.getAttribLocation(p,'a_uv');
+    gl.enableVertexAttribArray(ap); gl.enableVertexAttribArray(au);
+    gl.vertexAttribPointer(ap,2,gl.FLOAT,false,16,0);
+    gl.vertexAttribPointer(au,2,gl.FLOAT,false,16,8);
+    gl.uniform1i(gl.getUniformLocation(p,'u_tex'),0);
+  });
+
+  tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  return true;
+}
+
+// ── Render loop ────────────────────────────────────────────
+function loop(){
+  requestAnimationFrame(loop);
+  if(!video||video.readyState<2) return;
+  const vw=video.videoWidth, vh=video.videoHeight;
+  if(!vw||!vh) return;
+  if(canvas.width!==vw||canvas.height!==vh){
+    canvas.width=vw; canvas.height=vh;
+    gl.viewport(0,0,vw,vh);
+  }
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D,tex);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,video);
+  const p = currentMode==='dog'?progDog : currentMode==='split'?progSplit : progPass;
+  gl.useProgram(p);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+}
+
+// ── Camera ─────────────────────────────────────────────────
+async function startCamera(){
+  document.getElementById('startScreen').style.display='none';
+  if(!initGL()){ showError(); return; }
+  video = document.getElementById('videoEl');
+  try {
+    await openStream();
+    video.srcObject = stream;
+    await video.play();
+    loop();
+  } catch(e){ console.error(e); showError(); }
+}
+
+async function openStream(){
+  if(stream) stream.getTracks().forEach(t=>t.stop());
+  stream = await navigator.mediaDevices.getUserMedia({
+    video:{ facingMode: useFront?'user':'environment', width:{ideal:1280}, height:{ideal:720} },
+    audio:false
+  });
+}
+
+async function switchCamera(){
+  useFront = !useFront;
+  const btn=document.getElementById('switchBtn');
+  btn.style.transition='transform 0.35s'; btn.style.transform='rotate(180deg)';
+  setTimeout(()=>{ btn.style.transform=''; },380);
+  try {
+    await openStream();
+    video.srcObject=stream;
+    await video.play();
+  } catch(e){ console.error(e); }
+}
+
+// ── Mode ───────────────────────────────────────────────────
+function setMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+  const show = mode==='split';
+  document.getElementById('splitLine').style.display   = show?'block':'none';
+  document.getElementById('splitLabels').style.display = show?'block':'none';
+}
+
+function showError(){
+  document.getElementById('errorScreen').classList.add('show');
+}
+</script>
+
+<!-- Service Worker registration -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(r=>console.log('SW registered'))
+      .catch(e=>console.warn('SW failed:', e));
+  });
+}
+</script>
+</body>
+</html>
